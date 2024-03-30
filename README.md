@@ -1,6 +1,6 @@
 # Изменения
    - добавление автоматической линковки теперь при подключении хедеров таких как <math.h> <ncurses.h> <pthreads.h> не нужно добавлять библеотеки это сделается автоматически
-   - возможность установки своих связок библеотека -- линковка пример: AddCompLib(<header_name>,<compilation_flag>) -> AddCompLib("math","m") | AddCompLib("sqlite3.h","sqlite3")  
+   - возможность установки своих связок библеотека -- линковка пример: AddCompLib(<header_name>,<compilation_flag>) -> AddCompLib("math","m") | AddCompLib("sqlite3.h","sqlite3")  после этих команд при использовании этих хедеров добавятся соответствующие флаги библеотек в компиляции
    
 # Установка плагина
    vim plug -> Plug 'Abstract-Chief/vim_cppgo'
