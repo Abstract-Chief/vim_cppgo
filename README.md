@@ -6,11 +6,11 @@
    vim plug -> Plug 'Abstract-Chief/vim_cppgo'
    
 # Пример конфигурации на клавиши F2 F3 F4
-   nnoremap <F<F2>2> :call CompileMe()<CR> #компиляция 
+   nnoremap <F<F2>2> :call CompileMe()<C<>R> #компиляция 
    
-   nnoremap <F<F3>3> :call RunMe_Compiler()<CR> # запуск файла
+   nnoremap <F<F3>3> :call RunMe_Compiler()<C<>R> # запуск файла
    
-   nnoremap <F<F4>4> :call DebugMe_Compiler()<CR> # дебаг файла для дебага добавьте планин 'cpiger/NeoDebug'
+   nnoremap <F<F4>4> :call DebugMe_Compiler()<C<>R> # дебаг файла для дебага добавьте планин 'cpiger/NeoDebug'
  
 # Вспомогательные команды
   :call SetMakefile() # установка компиляции с помощью мейкфайла
