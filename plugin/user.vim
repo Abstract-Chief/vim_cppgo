@@ -8,7 +8,7 @@ function! SetLibCompiler(str)
    call SaveInfoCompiler(GetNameWithPoint(),1,a:str)
 endfunction
 
-function SetMakefile()
+function! SetMakefile()
    echo "write the compilation target in your makefile"
    let l:input=input("> ")
    while len(l:input)==0
@@ -24,12 +24,12 @@ function SetMakefile()
    call SaveInfoCompiler(GetNameWithPoint(),3,l:input)
 endfunction
 
-function UnsetMakefile()
+function! UnsetMakefile()
    call SaveInfoCompiler(GetNameWithPoint(),2,"-")
    call SaveInfoCompiler(GetNameWithPoint(),3,"-")
 endfunction
 
-function AddCompLib(header_name, flag)
+function! AddCompLib(header_name, flag)
     let l:header_name2 = BaseCompilerToHeaderName(a:header_name)
     if(l:header_name2=="")
         echo "Error header name"

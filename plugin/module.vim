@@ -21,7 +21,7 @@ function! GetNameWithPoint()
     return substitute(l:path, '/'.l:last_file, '/.compiler_' . l:last_file, 'g')
 endfunction
 
-function FindInFlagsBaseCompiler(flags,name)
+function! FindInFlagsBaseCompiler(flags,name)
    for id in a:flags
       if id[0] == a:name
          return 1
@@ -29,10 +29,10 @@ function FindInFlagsBaseCompiler(flags,name)
    endfor
    return 0
 endfunction
-function BaseCompilerNameToPatter(header_name)
+function! BaseCompilerNameToPatter(header_name)
    return "^#include\\s*<".a:header_name.">"
 endfunction
-function BaseCompilerSearch(header_name)
+function! BaseCompilerSearch(header_name)
    execute 'w!'
    call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("~")."/".expand("%:p")) 
    if v:shell_error
@@ -56,7 +56,7 @@ function! GetAutoCompileFlags()
       endif
    endfor
    return l:result
-endfunction 
+endfunction! 
 function! GetLibsCompiler()
     try
         let l:file=readfile(GetNameWithPoint())
@@ -104,7 +104,7 @@ function! GetCompileCommand()
 
     return l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
 endfunction
-function ParseAutoLibrary()
+function! ParseAutoLibrary()
     try
         let l:file=readfile(g:BaseCompilerUserPath)
         let l:result=[]
@@ -119,7 +119,7 @@ function ParseAutoLibrary()
     endtry
 endfunction
 
-function BaseCompilerToHeaderName(header_name)
+function! BaseCompilerToHeaderName(header_name)
     let l:header_name2 = substitute(a:header_name,' ','','g')
     if len(l:header_name2)==0 || stridx(l:header_name2,":")!=-1
         return ""

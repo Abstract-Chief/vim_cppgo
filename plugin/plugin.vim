@@ -1,5 +1,3 @@
-source user.vim
-source module.vim
 function! CompileMe()
     let l:path=expand('%:p')
     let l:command=GetCompileCommand()
