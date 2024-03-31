@@ -76,7 +76,7 @@ function BaseCompilerNameToPatter(header_name)
 endfunction
 function BaseCompilerSearch(header_name)
    execute 'w!'
-   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("~")."/".expand("%")) 
+   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("~")."/".expand("%:p")) 
    if v:shell_error
       return 0
    endif
@@ -122,12 +122,16 @@ function! GetFlagsCompiler()
 endfunction
 
 function! GetCompileCommand()
-    let l:file=readfile(GetNameWithPoint())
-    if len(l:file)>2
-       if l:file[2]!="-"
-          return l:file[2]
+   try
+       let l:file=readfile(GetNameWithPoint())
+       if len(l:file)>2
+          if l:file[2]!="-"
+             return l:file[2]
+          endif
        endif
-    endif
+    catch
+       echo "not found setting file"
+    endtry
     let l:filename=bufname()
     let l:type=GetTypeFromName(l:filename)
     let l:name=fnamemodify(l:filename, ':t:r')
@@ -207,12 +211,16 @@ function! RunMe_Compiler()
     if CompileMe()=="null"
         return "null"
     endif
-    let l:file=readfile(GetNameWithPoint())
-    if len(l:file)>3
-       if l:file[3]!="-"
-          let l:name=l:file[3]
+    try
+       let l:file=readfile(GetNameWithPoint())
+       if len(l:file)>3
+          if l:file[3]!="-"
+             let l:name=l:file[3]
+          endif
        endif
-    endif
+    catch
+       echo "not found setting file"
+    endtry 
     execute "!./".l:name
     silent! execute "!rm ".l:name
 endfunction
@@ -224,11 +232,15 @@ function! DebugMe_Compiler()
        return "null"
     endif
     let l:file=readfile(GetNameWithPoint())
-    if len(l:file)>3
-       if l:file[3]!="-"
-          let l:name=l:file[3]
+    try
+       if len(l:file)>3
+          if l:file[3]!="-"
+             let l:name=l:file[3]
+          endif
        endif
-    endif
+    catch
+       echo "not found setting file"
+    endtry 
     silent! execute "NeoDebug"
     call timer_start(1100, {-> feedkeys("file ".l:name."\<CR>", 'i')})
     call timer_start(1450, {-> feedkeys("start\<CR>", 'i')})
