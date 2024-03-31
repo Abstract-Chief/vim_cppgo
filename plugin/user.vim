@@ -1,4 +1,3 @@
-source module.vim
 function! SetFlagsCompiler(str)
    call SaveInfoCompiler(GetNameWithPoint(),0,a:str)
 endfunction
