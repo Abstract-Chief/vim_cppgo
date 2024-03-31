@@ -35,7 +35,8 @@ function! BaseCompilerNameToPatter(header_name)
 endfunction
 function! BaseCompilerSearch(header_name)
    execute 'w!'
-   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("~")."/".expand("%:p")) 
+   "echo 'grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("%:p")
+   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("%:p")) 
    if v:shell_error
       return 0
    endif
@@ -56,13 +57,11 @@ function! GetAutoCompileFlags()
          let l:result=l:result."-l".item[1]." "
       endif
    endfor
-   echo l:result
    return l:result
 endfunction! 
 function! GetLibsCompiler()
     try
         let l:file=readfile(GetNameWithPoint())
-        echo l:file
         return l:file[1]
     catch
         return g:BaseCompilerLibs
