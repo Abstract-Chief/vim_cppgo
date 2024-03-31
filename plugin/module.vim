@@ -1,4 +1,5 @@
 let g:BaseCompilerLibs=""
+let g:BaseCompilerUserPath=expand('~')."/.NcompUserLibrary.data"
 let g:BaseCompilerFlags="-Wall -g"
 
 function! SaveInfoCompiler(path, n, str)
@@ -55,6 +56,7 @@ function! GetAutoCompileFlags()
          let l:result=l:result."-l".item[1]." "
       endif
    endfor
+   echo l:result
    return l:result
 endfunction! 
 function! GetLibsCompiler()
@@ -101,7 +103,6 @@ function! GetCompileCommand()
     if l:type=="cpp"
         let l:comp="g++"
     endif
-
     return l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
 endfunction
 function! ParseAutoLibrary()
