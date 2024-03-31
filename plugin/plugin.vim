@@ -1,19 +1,26 @@
 function! CompileMe()
     let l:path=expand('%:p')
-    let l:command=GetCompileCommand()
-    if l:command=="null"
-        return "null"
+    let l:command=split(GetCompileCommand(),"|")
+    if l:command[0]=="null"
+        return ["null"]
+    elseif l:command[0]=="it"
+       echo "iterable language cat only run"
+       return l:command 
     endif
-    echo "compilation command:    ".l:command
+    echo "compilation command:    ".l:command[1]
     echo "\\/\\/\\/\\/"
-    execute "!".l:command
+    execute "!".l:command[1]
     return l:command
 endfunction
 
 function! RunMe_Compiler()
     let l:name=fnamemodify(bufname(), ':t:r')
-    if CompileMe()=="null"
+    let l:r=CompileMe()
+    if l:r[0]=="null"
         return "null"
+    elseif l:r[0]=="it"
+       execute "!".l:r[1]
+       return "it"
     endif
     try
        let l:file=readfile(GetNameWithPoint())
@@ -27,13 +34,16 @@ function! RunMe_Compiler()
     endtry 
     execute "!./".l:name
     silent! execute "!rm ".l:name
+    return "comp"
 endfunction
 
 function! DebugMe_Compiler()
     let l:name=fnamemodify(bufname(), ':t:r')
     silent! let l:r = CompileMe()
-    if r=="null"
+    if l:r[0]=="null"
        return "null"
+    elseif l:r[0]=="it"
+       return
     endif
     let l:file=readfile(GetNameWithPoint())
     try

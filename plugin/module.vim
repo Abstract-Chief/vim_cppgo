@@ -104,12 +104,12 @@ function! GetCompileCommand()
       if has('python3')
          let l:comp="python3" 
       endif
-      return l:comp." ".l:filename
+      return "it|".l:comp." ".l:filename
     else
         echo "dont support this filetype"
        return "null"
     endif
-    return l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
+    return "comp|".l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
 endfunction
 function! ParseAutoLibrary()
     try
