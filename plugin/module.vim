@@ -94,13 +94,20 @@ function! GetCompileCommand()
     let l:filename=bufname()
     let l:type=GetTypeFromName(l:filename)
     let l:name=fnamemodify(l:filename, ':t:r')
-    let l:comp="gcc"
-    if l:type!="c" && l:type!="cpp"
-        echo "dont support this filetype"
-        return "null"
-    endif
-    if l:type=="cpp"
+    let l:comp="null"
+    if l:type=="c"
+        let l:comp="gcc"
+    elseif l:type=="cpp"
         let l:comp="g++"
+    elseif l:type=="py"
+      let l:comp="python"
+      if has('python3')
+         let l:comp="python3" 
+      endif
+      return l:comp." ".l:filename
+    else
+        echo "dont support this filetype"
+       return "null"
     endif
     return l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
 endfunction
