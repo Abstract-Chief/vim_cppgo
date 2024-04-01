@@ -2,6 +2,15 @@ let g:BaseCompilerLibs=""
 let g:BaseCompilerUserPath=expand('~')."/.NcompUserLibrary.data"
 let g:BaseCompilerFlags="-Wall -g"
 
+function! GetTypeFromName(name)
+   let l:len=strlen(a:name)
+   for i in range(0,l:len)
+      if a:name[l:len-i]=="."
+         return a:name[l:len-i+1:]
+      endif
+   endfor
+   return "null"
+endfunction
 function! SaveInfoCompiler(path, n, str)
     try
         let l:lines = readfile(a:path)
