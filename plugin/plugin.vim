@@ -7,7 +7,6 @@ function! CompileMe()
        echo "iterable language cat only run"
        return l:command 
     endif
-    echo l:command
     echo "compilation command:    ".l:command[1]
     echo "\\/\\/\\/\\/"
     execute "!".l:command[1]
@@ -17,7 +16,6 @@ endfunction
 function! RunMe_Compiler()
     let l:name=fnamemodify(bufname(), ':t:r')
     let l:r=CompileMe()
-    echo l:r
     if l:r[0]=="null"
         return "null"
     elseif l:r[0]=="it"
@@ -26,7 +24,6 @@ function! RunMe_Compiler()
     endif
     try
        let l:file=readfile(GetNameWithPoint())
-       echo l:file
        if len(l:file)>3
           if l:file[3]!="-"
              let l:name=l:file[3]
