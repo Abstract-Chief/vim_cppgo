@@ -16,6 +16,7 @@ endfunction
 function! RunMe_Compiler()
     let l:name=fnamemodify(bufname(), ':t:r')
     let l:r=CompileMe()
+    echo l:r
     if l:r[0]=="null"
         return "null"
     elseif l:r[0]=="it"
