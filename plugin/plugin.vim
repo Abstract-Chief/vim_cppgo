@@ -7,6 +7,7 @@ function! CompileMe()
        echo "iterable language cat only run"
        return l:command 
     endif
+    echo l:command
     echo "compilation command:    ".l:command[1]
     echo "\\/\\/\\/\\/"
     execute "!".l:command[1]
