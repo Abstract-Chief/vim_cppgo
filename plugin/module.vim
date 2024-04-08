@@ -94,7 +94,7 @@ function! GetCompileCommand()
        let l:file=readfile(GetNameWithPoint())
        if len(l:file)>2
           if l:file[2]!="-"
-             return l:file[2]
+             return "make|".l:file[2]
           endif
        endif
     catch
