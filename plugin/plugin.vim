@@ -20,7 +20,7 @@ function! RunMe_Compiler()
     if l:r[0]=="null"
         return "null"
     elseif l:r[0]=="it"
-       execute "!".l:r[1]
+       "execute "!".l:r[1]
        return "it"
     endif
     try
