@@ -24,6 +24,7 @@ function! RunMe_Compiler()
     endif
     try
        let l:file=readfile(GetNameWithPoint())
+       echo l:file
        if len(l:file)>3
           if l:file[3]!="-"
              let l:name=l:file[3]
