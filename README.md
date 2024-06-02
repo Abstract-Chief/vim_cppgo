@@ -1,36 +1,32 @@
-# Изменения
-   @ 31/03/2024
-   
-   -добавления возможности компиляции python(the best and fastest programming language in the world)
-   
-   @ 30/03/2024
-   - добавление автоматической линковки теперь при подключении хедеров таких как <math.h> <ncurses.h> <pthreads.h> не нужно добавлять библеотеки это сделается автоматически
-   - возможность установки своих связок библеотека -- линковка пример: AddCompLib(<header_name>,<compilation_flag>) -> AddCompLib("math","m") | AddCompLib("sqlite3.h","sqlite3")  после этих команд при использовании этих хедеров добавятся соответствующие флаги библеотек в компиляции
+# Changes
+ @ 03/31/2024
 
-   - добавление компиляции с помощью мейкфайлов call SetMakefile() | call UnsetMakefile() при выполнении первой команды нужно будет ввести цель отвечающую за компиляцию в мейкфайле и бинарный файл на выходе
-   
-# Установка плагина
-   vim plug -> Plug 'Abstract-Chief/vim_cppgo'
-   
-# Пример конфигурации на клавиши F2 F3 F4
-   nnoremap <F<F2>2> :call CompileMe()<C<CR>R> #компиляция 
-   
-   nnoremap <F<F3>3> :call RunMe_Compiler()<C<CR>R> # запуск файла
-   
-   nnoremap <F<F4>4> :call DebugMe_Compiler()<C<CR>R> # дебаг файла для дебага добавьте планин 'cpiger/NeoDebug'
- 
-# Вспомогательные команды
-  :call SetMakefile() # установка компиляции с помощью мейкфайла
-  :call UnsetMakefile() # возврат к одиночной компиляции 
-  
-  :call SetLibCompiler($ARG) # $ARG строка содержащая подключение библеотек например "-lm"
-  
-  :call SetFlagsCompiler(($ARG) # $ARG строка содержащая флаги компиляции например "-Wall -g -Werror"
-  
-# Информация
-  Cтандартные флаги компиляции -Wall -g
-  Именение компиляции от этих функции локальны для каждого файла тоесть разные файлы разные флаги и библеотеки
+ -added the ability to compile python (the best and fastest programming language in the world)
 
+ @ 30/03/2024
+ - adding automatic linking now when connecting headers such as <math.h> <ncurses.h> <pthreads.h> you don’t need to add libraries, this will be done automatically
+ - the ability to install your own library links - linking example: AddCompLib(<header_name>,<compilation_flag>) -> AddCompLib("math","m") | AddCompLib("sqlite3.h","sqlite3") after these commands, when using these headers, the corresponding library flags will be added to the compilation
 
-  
+ - adding compilation using makefiles call SetMakefile() | call UnsetMakefile() when executing the first command you will need to enter the target responsible for compilation in the makefile and the binary file in the output
 
+# Install the plugin
+ vim plug -> Plug 'Abstract-Chief/vim_cppgo'
+
+# Example configuration for the keys F2 F3 F4
+ nnoremap <F<F2>2> :call CompileMe()<C<CR>R> #compilation
+
+ nnoremap <F<F3>3> :call RunMe_Compiler()<C<CR>R> # run file
+
+ nnoremap <F<F4>4> :call DebugMe_Compiler()<C<CR>R> # debug file for debugging add planin 'cpiger/NeoDebug'
+
+# Auxiliary commands
+ :call SetMakefile() # setting compilation using a makefile
+ :call UnsetMakefile() # return to single compilation
+
+ :call SetLibCompiler($ARG) # $ARG a string containing library connections, for example "-lm"
+
+ :call SetFlagsCompiler(($ARG) # $ARG a string containing compilation flags for example "-Wall -g -Werror"
+
+# Information
+ Standard compilation flags -Wall -g
+ The compilation names from these functions are local for each file, that is, different files, different flags and libraries
