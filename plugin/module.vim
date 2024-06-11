@@ -100,7 +100,7 @@ function! GetCompileCommand()
     catch
        echo "not found setting file"
     endtry
-    let l:filename=bufname()
+    let l:filename=expand('%:p')
     let l:type=GetTypeFromName(l:filename)
     let l:name=fnamemodify(l:filename, ':t:r')
     let l:comp="null"

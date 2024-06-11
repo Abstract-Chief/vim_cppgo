@@ -4,7 +4,7 @@ function! CompileMe()
     if l:command[0]=="null"
         return ["null"]
     elseif l:command[0]=="it"
-       echo "iterable language cat only run"
+       execute "!".l:command[1]
        return l:command 
     endif
     echo "compilation command:    ".l:command[1]
@@ -19,7 +19,6 @@ function! RunMe_Compiler()
     if l:r[0]=="null"
         return "null"
     elseif l:r[0]=="it"
-       "execute "!".l:r[1]
        return "it"
     endif
     try
