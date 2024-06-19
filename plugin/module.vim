@@ -54,7 +54,7 @@ function! BaseCompilerSearch(header_name)
 endfunction
 function! GetAutoCompileFlags()
    let l:result=""
-   let l:flags=[["math.h","m"],["curses.h","curses"],["ncurses.h","ncurses"],["pthread.h","pthread"],["netdb.h","net"]]
+   let l:flags=[["math.h","m"],["curses.h","curses"],["ncurses.h","ncurses"],["pthread.h","pthread"]]
    let l:user_flags=ParseAutoLibrary()
    for item in l:user_flags
       if FindInFlagsBaseCompiler(l:flags,item[0])==0
