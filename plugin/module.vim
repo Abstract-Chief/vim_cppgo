@@ -114,6 +114,9 @@ function! GetCompileCommand()
          let l:comp="python3" 
       endif
       return "it|".l:comp." ".l:filename
+   elseif l:type=="sh"
+      let l:comp="sudo chmod +x ".l:filename." ; ".l:filename
+      return "it|".l:comp." ".l:filename
     else
         echo "dont support this filetype"
        return "null"
