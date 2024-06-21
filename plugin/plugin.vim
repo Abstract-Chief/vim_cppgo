@@ -1,5 +1,8 @@
 function! CompileMe()
-    let l:path=expand('%:p')
+   return CompileMe_DEV(bufname())
+endfunction
+function! CompileMe_DEV(name)
+    let l:path=expand(a:name)
     let l:command=split(GetCompileCommand(),"|")
     if l:command[0]=="null"
         return ["null"]
