@@ -17,6 +17,7 @@ function! RunMe_Compiler()
    return RunMe_Compiler_DEV(fnamemodify(bufname(), ':t:r'))
 endfunction
 function! RunMe_Compiler_DEV(name)
+    echo "try compile and run  ".a:name
     let l:name=a:name
     let l:r=CompileMe()
     if l:r[0]=="null"
