@@ -24,11 +24,16 @@ function! SaveInfoCompiler(path, n, str)
     call writefile(l:lines[0:a:n],a:path)
 endfunction
 
-function! GetNameWithPoint()
-    let l:path=expand('%:p')
-    let l:path_parts = split(l:path, '/')
-    let l:last_file = l:path_parts[-1]
-    return substitute(l:path, '/'.l:last_file, '/.compiler_' . l:last_file, 'g')
+function! GetNameWithPoint(name)
+    let l:path=expand(a:name)
+    if stridx(l:path,"/")!=-1
+       let l:path_parts = split(l:path, '/')
+       let l:last_file = l:path_parts[-1]
+      return substitute(l:path, '/'.l:last_file, '/.compiler_' . l:last_file, 'g')
+   else 
+      return ".compiler_" . l:path
+   endif
+
 endfunction
 
 function! FindInFlagsBaseCompiler(flags,name)
@@ -42,17 +47,17 @@ endfunction
 function! BaseCompilerNameToPatter(header_name)
    return "^#include\\s*<".a:header_name.">"
 endfunction
-function! BaseCompilerSearch(header_name)
-   execute 'w!'
+function! BaseCompilerSearch(filename,header_name)
+   "execute 'w!'
    "echo 'grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("%:p")
-   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.expand("%:p")) 
+   call systemlist('grep "'.BaseCompilerNameToPatter(a:header_name).'" < '.a:filename) 
    if v:shell_error
       return 0
    endif
    return 1
 
 endfunction
-function! GetAutoCompileFlags()
+function! GetAutoCompileFlags(filename)
    let l:result=""
    let l:flags=[["math.h","m"],["curses.h","curses"],["ncurses.h","ncurses"],["pthread.h","pthread"]]
    let l:user_flags=ParseAutoLibrary()
@@ -62,24 +67,24 @@ function! GetAutoCompileFlags()
       endif
    endfor
    for item in l:flags
-      if BaseCompilerSearch(item[0])==1
+      if BaseCompilerSearch(a:filename,item[0])==1
          let l:result=l:result."-l".item[1]." "
       endif
    endfor
    return l:result
 endfunction! 
-function! GetLibsCompiler()
+function! GetLibsCompiler(name)
     try
-        let l:file=readfile(GetNameWithPoint())
+        let l:file=readfile(GetNameWithPoint(a:name))
         return l:file[1]
     catch
         return g:BaseCompilerLibs
     endtry
 endfunction
 
-function! GetFlagsCompiler()
+function! GetFlagsCompiler(name)
     try
-        let l:file=readfile(GetNameWithPoint())[0]
+        let l:file=readfile(GetNameWithPoint(a:name))[0]
         if l:file==""
             return g:BaseCompilerFlags
         endif
@@ -89,26 +94,11 @@ function! GetFlagsCompiler()
     endtry
 endfunction
 
-function! GetCompileCommand()
-   try
-       let l:file=readfile(GetNameWithPoint())
-       if len(l:file)>2
-          if l:file[2]!="-"
-             return "make|".l:file[2]
-          endif
-       endif
-    catch
-       echo "not found setting file"
-    endtry
-    let l:filename=expand('%:p')
+function! GetCompileCommand(name)
+    let l:filename=expand(a:name)
     let l:type=GetTypeFromName(l:filename)
     let l:name=fnamemodify(l:filename, ':t:r')
-    let l:comp="null"
-    if l:type=="c"
-        let l:comp="gcc"
-    elseif l:type=="cpp"
-        let l:comp="g++"
-    elseif l:type=="py"
+    if l:type=="py"
       let l:comp="python"
       if has('python3')
          let l:comp="python3" 
@@ -117,11 +107,27 @@ function! GetCompileCommand()
    elseif l:type=="sh"
       let l:comp="bash"
       return "it|".l:comp." ".l:filename
+   endif
+   try
+       let l:file=readfile(GetNameWithPoint(l:filename))
+       if len(l:file)>2
+          if l:file[2]!="-"
+             return "make|".l:file[2]
+          endif
+       endif
+    catch
+       echo "not found setting file"
+    endtry
+    let l:comp="null"
+    if l:type=="c"
+        let l:comp="gcc"
+    elseif l:type=="cpp"
+        let l:comp="g++"
     else
         echo "dont support this filetype"
        return "null"
     endif
-    return "comp|".l:comp ." ". GetFlagsCompiler() ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler()." ".GetAutoCompileFlags() 
+    return "comp|".l:comp ." ". GetFlagsCompiler(a:name) ." ". l:filename . " -o " . l:name ." ". GetLibsCompiler(a:name)." ".GetAutoCompileFlags(a:name) 
 endfunction
 function! ParseAutoLibrary()
     try

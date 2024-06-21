@@ -1,9 +1,9 @@
 function! CompileMe()
-   return CompileMe_DEV(bufname())
+   return CompileMe_DEV(bufname('%'))
 endfunction
 function! CompileMe_DEV(name)
     let l:path=expand(a:name)
-    let l:command=split(GetCompileCommand(),"|")
+    let l:command=split(GetCompileCommand(a:name),"|")
     if l:command[0]=="null"
         return ["null"]
     elseif l:command[0]=="it"
@@ -17,19 +17,18 @@ function! CompileMe_DEV(name)
 endfunction
 
 function! RunMe_Compiler()
-   return RunMe_Compiler_DEV(fnamemodify(bufname(), ':t:r'))
+   return RunMe_Compiler_DEV(bufname('%'))
 endfunction
 function! RunMe_Compiler_DEV(name)
     let l:name=fnamemodify(a:name, ':t:r')
-    echo "try compile and run  ".l:name
-    let l:r=CompileMe()
+    let l:r=CompileMe_DEV(a:name)
     if l:r[0]=="null"
         return "null"
     elseif l:r[0]=="it"
        return "it"
     endif
     try
-       let l:file=readfile(GetNameWithPoint())
+       let l:file=readfile(GetNameWithPoint(a:name))
        if len(l:file)>3
           if l:file[3]!="-"
              let l:name=l:file[3]
