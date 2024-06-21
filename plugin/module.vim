@@ -115,7 +115,7 @@ function! GetCompileCommand()
       endif
       return "it|".l:comp." ".l:filename
    elseif l:type=="sh"
-      let l:comp="sudo chmod +x ".l:filename." ; ".l:filename
+      let l:comp="bash"
       return "it|".l:comp." ".l:filename
     else
         echo "dont support this filetype"
