@@ -17,7 +17,7 @@ function! CompileMe_DEV(name)
 endfunction
 
 function! RunMeDemon_Compiler()
-   return RunMeDemon_Compiler_DEV(bufname('%'),1)
+   return RunMe_Compiler_DEV(bufname('%'),1)
 endfunction
 function! RunMe_Compiler()
    return RunMe_Compiler_DEV(bufname('%'),0)
