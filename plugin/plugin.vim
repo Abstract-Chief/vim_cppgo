@@ -16,10 +16,10 @@ function! CompileMe_DEV(name)
     return l:command
 endfunction
 
-function! RunMe_Compiler()
-   return RunMe_Compiler_DEV(bufname('%'))
+function! RunMe_Compiler(demon)
+   return RunMe_Compiler_DEV(bufname('%'),a:demon)
 endfunction
-function! RunMe_Compiler_DEV(name)
+function! RunMe_Compiler_DEV(name,demon)
     let l:name=fnamemodify(a:name, ':t:r')
     let l:r=CompileMe_DEV(a:name)
     if l:r[0]=="null"
@@ -37,6 +37,10 @@ function! RunMe_Compiler_DEV(name)
     catch
        echo "not found setting file"
     endtry 
+    if a:demon==1
+       silent! execute "!./".l:name." &"
+       return "comp"
+    endif
     execute "!./".l:name
     silent! execute "!rm ".l:name
     return "comp"
