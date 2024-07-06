@@ -16,8 +16,11 @@ function! CompileMe_DEV(name)
     return l:command
 endfunction
 
-function! RunMe_Compiler(demon)
-   return RunMe_Compiler_DEV(bufname('%'),a:demon)
+function! RunMeDemon_Compiler()
+   return RunMeDemon_Compiler_DEV(bufname('%'),1)
+endfunction
+function! RunMe_Compiler()
+   return RunMe_Compiler_DEV(bufname('%'),0)
 endfunction
 function! RunMe_Compiler_DEV(name,demon)
     let l:name=fnamemodify(a:name, ':t:r')
