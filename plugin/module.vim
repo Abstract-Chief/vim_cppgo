@@ -123,7 +123,7 @@ function! GetCompileCommand(name)
         let l:comp="gcc"
     elseif l:type=="cpp"
         let l:comp="g++"
-    elseif l:type=="rc"
+    elseif l:type=="rs"
         let l:comp="rustc"
         return "comp|".l:comp." ".l:filename ." -o ".l:name
     else
